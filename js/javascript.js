@@ -123,7 +123,7 @@ function signOut() {
   }
 
 function bukatuSaioa(){
-    signOut();
+    //signOut();
     window.location.href = "index.html";
 }
 function aldatuData(id){
