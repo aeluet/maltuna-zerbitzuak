@@ -14,22 +14,24 @@ if (localStorage.getItem("kotxe_okupazioa") == null){
     localStorage.setItem("kotxe_okupazioa", JSON.stringify(kotxe_okupazioa));
 }
 
-var YOUR_CLIENT_ID = '332840859036-5mqkq80tv0nen1mu1cnjgpebp68u5if3.apps.googleusercontent.com';
-var YOUR_REDIRECT_URI = 'https://aeluet.github.io/maltuna-zerbitzuak/produktuak';
-var fragmentString = location.hash.substring(1);
+function onlogin(){
+    var YOUR_CLIENT_ID = '332840859036-5mqkq80tv0nen1mu1cnjgpebp68u5if3.apps.googleusercontent.com';
+    var YOUR_REDIRECT_URI = 'https://aeluet.github.io/maltuna-zerbitzuak/produktuak';
+    var fragmentString = location.hash.substring(1);
 
-// Parse query string to see if page request is coming from OAuth 2.0 server.
-var params = {};
-var regex = /([^&=]+)=([^&]*)/g, m;
-while (m = regex.exec(fragmentString)) {
-params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-}
-if (Object.keys(params).length > 0) {
-localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
-if (params['state'] && params['state'] == 'onSignIn') {
-  onSignIn();
-}
-}
+    // Parse query string to see if page request is coming from OAuth 2.0 server.
+    var params = {};
+    var regex = /([^&=]+)=([^&]*)/g, m;
+    while (m = regex.exec(fragmentString)) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+    }
+    if (Object.keys(params).length > 0) {
+        alert("sartu da");
+        localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+        if (params['state'] && params['state'] == 'onSignIn') {
+          onSignIn();
+        }
+    }
 
 // If there's an access token, try an API request.
 // Otherwise, start OAuth 2.0 flow.
@@ -87,6 +89,8 @@ for (var p in params) {
 // Add form to page and submit it to open the OAuth 2.0 endpoint.
 document.body.appendChild(form);
 form.submit();
+}
+    
 }
 
 
