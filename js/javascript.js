@@ -2,6 +2,7 @@ let username;
 let password;
 let bizikleta_okupazioa;
 let kotxe_okupazioa;
+let ordenagailu_okupazioa;
 let user;
 
 if (localStorage.getItem("bizikleta_okupazioa") == null){
@@ -12,6 +13,11 @@ if (localStorage.getItem("bizikleta_okupazioa") == null){
 if (localStorage.getItem("kotxe_okupazioa") == null){
     let kotxe_okupazioa = [];
     localStorage.setItem("kotxe_okupazioa", JSON.stringify(kotxe_okupazioa));
+}
+
+if (localStorage.getItem("ordenagailu_okupazioa") == null){
+    let ordenagailu_okupazioa = [];
+    localStorage.setItem("ordenagailu_okupazioa", JSON.stringify(ordenagailu_okupazioa));
 }
 
 function onlogin(){
@@ -172,6 +178,21 @@ function bookKotxe(){
     
 }
 
+function bookOrdenagailua(){
+    ordenagailu_okupazioa = JSON.parse(localStorage.getItem("ordenagailu_okupazioa"));
+    let aukera_data = document.getElementsByClassName("timing selected")[0];
+    if(aukera_data!=null){
+        aukera_data.className = "timing okupata";
+        ordenagailu_okupazioa.push(aukera_data.getAttribute("id"));
+
+        localStorage.setItem("ordenagailu_okupazioa", JSON.stringify(ordenagailu_okupazioa));
+        window.location.href = "produktuak.html";
+    }else{
+        alert("Aukeratu data bat aurrera egin aurretik!");
+    }
+    
+}
+
 function getDayAndMonth(dayIndex) {
   const daysOfWeek = ['Astelehena', 'Asteartea', 'Asteazkena', 'Osteguna', 'Ostirala', 'Larunbata', 'Igandea'];
   const currentDate = new Date();
@@ -253,6 +274,64 @@ function gehituSchedule(){
     contenido.innerHTML = taula;
 }
 
+function gehituOrdeSchedule(){
+    // Get the day and month for each day of the week
+    for (let i = 0; i < 7; i++) {
+        const dayInfo = getDayAndMonth(i);
+        
+        //alert(`${dayInfo.day}, Day ${dayInfo.dayOfMonth} of ${dayInfo.month}`);
+    }
+    
+    ordenagailu_okupazioa = JSON.parse(localStorage.getItem("ordenagailu_okupazioa"));
+    
+    let contenido = document.getElementById("day-slot");
+    let egunak = "<ul><li class='left-arrow'><a href='#'><i class='fa fa-chevron-left'></i></a></li>";
+    for (let i = 0; i < 7; i++) {
+        const dayInfo = getDayAndMonth(i);
+        egunak += "<li><span>"+dayInfo.day+"</span><span class='slot-date'>" + dayInfo.dayOfMonth + " " + dayInfo.month + " <small class='slot-year'>" + 2024 + "</small></span></li>";
+    }
+    egunak += "<li class='right-arrow'><a href='#'><i class='fa fa-chevron-right'></i></a></li></ul>";
+    contenido.innerHTML = egunak;
+    
+    contenido = document.getElementById("schedule-cont");
+    let taula = "<div class='row'><div class='col-md-12'><div class='time-slot'><ul class='clearfix'>";
+    
+    for(i = 0; i < 5; i++){
+        taula += "<li>";
+        let id = "";
+        if(i==0){
+            id = "mon-";
+        }
+        if(i==1){
+            id = "tue-";
+        }
+        if(i==2){
+            id = "wen-";
+        }
+        if(i==3){
+            id = "thu-";
+        }
+        if(i==4){
+            id = "fri-";
+        }
+        let ordua = 9;
+        for(j = 0; j<1; j++){
+            
+            let id_day = id + j;
+            taula += "<a id='" +id_day+"' class='timing";
+            if(ordenagailu_okupazioa.includes(id_day)){
+                taula += " okupata";
+            }
+            taula += "' href='#' onclick=aldatuData('"+id_day+"')><span>Aukeratu</span></a>";
+            ordua+=2;
+        }
+        taula += "</li>";
+    }
+    
+    taula += "</ul></div></div></div>";
+    
+    contenido.innerHTML = taula;
+}
 
 function gehituKotxeSchedule(){
     // Get the day and month for each day of the week
