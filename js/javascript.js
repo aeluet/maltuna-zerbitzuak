@@ -4,21 +4,55 @@ let bizikleta_okupazioa;
 let kotxe_okupazioa;
 let ordenagailu_okupazioa;
 let user;
+let bizikletaAukera = 1;
+let ordeAukera = 1;
+let autoAukera = 1;
 
-if (localStorage.getItem("bizikleta_okupazioa") == null){
+if (localStorage.getItem("bo1") == null){
     let bizikleta_okupazioa = [];
-    localStorage.setItem("bizikleta_okupazioa", JSON.stringify(bizikleta_okupazioa));
+    localStorage.setItem("bo1", JSON.stringify(bizikleta_okupazioa));
 }
 
-if (localStorage.getItem("kotxe_okupazioa") == null){
+if (localStorage.getItem("bo2") == null){
+    localStorage.setItem("bo2", JSON.stringify(bizikleta_okupazioa));
+}
+
+if (localStorage.getItem("ko1") == null){
     let kotxe_okupazioa = [];
-    localStorage.setItem("kotxe_okupazioa", JSON.stringify(kotxe_okupazioa));
+    for(i = 1; i <= 2; i++){
+        localStorage.setItem("ko"+i, JSON.stringify(kotxe_okupazioa));
+    }
 }
 
-if (localStorage.getItem("ordenagailu_okupazioa") == null){
+if (localStorage.getItem("oo1") == null){
     let ordenagailu_okupazioa = [];
-    localStorage.setItem("ordenagailu_okupazioa", JSON.stringify(ordenagailu_okupazioa));
+    for(i = 1; i <= 10; i++){
+        localStorage.setItem("oo"+i, JSON.stringify(ordenagailu_okupazioa));
+    }
 }
+
+
+function aldatuDa(){
+    if(document.getElementById("bizikletaAukera").value == "1"){
+        bizikletaAukera = 1;
+    }else{
+        bizikletaAukera = 2;
+    }
+    gehituSchedule();
+}
+
+function aldatuDaOrde(){
+    ordeAukera = document.getElementById("ordeAukera").value;
+    gehituOrdeSchedule();
+}
+
+function aldatuDaAuto(){
+    autoAukera = document.getElementById("autoAukera").value;
+    gehituKotxeSchedule();
+}
+
+
+
 
 function onlogin(){
     var YOUR_CLIENT_ID = '332840859036-5mqkq80tv0nen1mu1cnjgpebp68u5if3.apps.googleusercontent.com';
@@ -149,13 +183,22 @@ function aldatuData(id){
 }
 
 function book(){
-    bizikleta_okupazioa = JSON.parse(localStorage.getItem("bizikleta_okupazioa"));
+    if(bizikletaAukera == 1){
+        bizikleta_okupazioa = JSON.parse(localStorage.getItem("bo1"));
+    }else{
+        bizikleta_okupazioa = JSON.parse(localStorage.getItem("bo2"));
+    }
+    
     let aukera_data = document.getElementsByClassName("timing selected")[0];
     if(aukera_data!=null){
         aukera_data.className = "timing okupata";
         bizikleta_okupazioa.push(aukera_data.getAttribute("id"));
-
-        localStorage.setItem("bizikleta_okupazioa", JSON.stringify(bizikleta_okupazioa));
+        
+        if(bizikletaAukera == 1){
+            localStorage.setItem("bo1", JSON.stringify(bizikleta_okupazioa));
+        }else{
+            localStorage.setItem("bo2", JSON.stringify(bizikleta_okupazioa));
+        }
         window.location.href = "produktuak.html";
     }else{
         alert("Aukeratu data bat aurrera egin aurretik!");
@@ -164,13 +207,13 @@ function book(){
 }
 
 function bookKotxe(){
-    kotxe_okupazioa = JSON.parse(localStorage.getItem("kotxe_okupazioa"));
+    kotxe_okupazioa = JSON.parse(localStorage.getItem("ko"+autoAukera));
     let aukera_data = document.getElementsByClassName("timing selected")[0];
     if(aukera_data!=null){
         aukera_data.className = "timing okupata";
         kotxe_okupazioa.push(aukera_data.getAttribute("id"));
 
-        localStorage.setItem("kotxe_okupazioa", JSON.stringify(kotxe_okupazioa));
+        localStorage.setItem("ko"+autoAukera, JSON.stringify(kotxe_okupazioa));
         window.location.href = "produktuak.html";
     }else{
         alert("Aukeratu data bat aurrera egin aurretik!");
@@ -179,13 +222,13 @@ function bookKotxe(){
 }
 
 function bookOrdenagailua(){
-    ordenagailu_okupazioa = JSON.parse(localStorage.getItem("ordenagailu_okupazioa"));
+    ordenagailu_okupazioa = JSON.parse(localStorage.getItem("oo"+ordeAukera.toString()));
     let aukera_data = document.getElementsByClassName("timing selected")[0];
     if(aukera_data!=null){
         aukera_data.className = "timing okupata";
         ordenagailu_okupazioa.push(aukera_data.getAttribute("id"));
 
-        localStorage.setItem("ordenagailu_okupazioa", JSON.stringify(ordenagailu_okupazioa));
+        localStorage.setItem("oo"+ordeAukera.toString(), JSON.stringify(ordenagailu_okupazioa));
         window.location.href = "produktuak.html";
     }else{
         alert("Aukeratu data bat aurrera egin aurretik!");
@@ -216,14 +259,17 @@ function getDayAndMonth(dayIndex) {
 
 
 function gehituSchedule(){
+    if(bizikletaAukera == 1){
+        bizikleta_okupazioa = JSON.parse(localStorage.getItem("bo1"));
+    }else{
+        bizikleta_okupazioa = JSON.parse(localStorage.getItem("bo2"));
+    }
     // Get the day and month for each day of the week
     for (let i = 0; i < 7; i++) {
         const dayInfo = getDayAndMonth(i);
         
         //alert(`${dayInfo.day}, Day ${dayInfo.dayOfMonth} of ${dayInfo.month}`);
     }
-    
-    bizikleta_okupazioa = JSON.parse(localStorage.getItem("bizikleta_okupazioa"));
     
     let contenido = document.getElementById("day-slot");
     let egunak = "<ul><li class='left-arrow'><a href='#'><i class='fa fa-chevron-left'></i></a></li>";
@@ -282,7 +328,7 @@ function gehituOrdeSchedule(){
         //alert(`${dayInfo.day}, Day ${dayInfo.dayOfMonth} of ${dayInfo.month}`);
     }
     
-    ordenagailu_okupazioa = JSON.parse(localStorage.getItem("ordenagailu_okupazioa"));
+    ordenagailu_okupazioa = JSON.parse(localStorage.getItem("oo"+ordeAukera.toString()));
     
     let contenido = document.getElementById("day-slot");
     let egunak = "<ul><li class='left-arrow'><a href='#'><i class='fa fa-chevron-left'></i></a></li>";
@@ -341,7 +387,7 @@ function gehituKotxeSchedule(){
         //alert(`${dayInfo.day}, Day ${dayInfo.dayOfMonth} of ${dayInfo.month}`);
     }
     
-    kotxe_okupazioa = JSON.parse(localStorage.getItem("kotxe_okupazioa"));
+    kotxe_okupazioa = JSON.parse(localStorage.getItem("ko"+autoAukera));
     
     let contenido = document.getElementById("day-slot");
     let egunak = "<ul><li class='left-arrow'><a href='#'><i class='fa fa-chevron-left'></i></a></li>";

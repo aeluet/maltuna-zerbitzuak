@@ -89,7 +89,6 @@
 
 <!-- Schedule Widget -->
     <div class="card booking-schedule schedule-widget">
-
         <!-- Schedule Header -->
         <div class="schedule-header">
             <div class="row">
@@ -114,7 +113,12 @@
 
     </div>
     <!-- /Schedule Widget -->
-
+      <p style="margin-left: 1em; margin-bottom: 0;">Aukeratu bizikleta bat: <br>
+<select style="margin-left: 2em;" name="bizikletaAukera" id="bizikletaAukera" onchange="aldatuDa()">
+        <option value="1">Bizikleta 1</option>
+        <option value="2">Bizikleta 2</option>
+    </select></p>
+      
 <!-- Submit Section -->
 <div class="submit-section proceed-btn text-right">
     <a href="#" class="btn btn-primary submit-btn" onclick="book()">Alokatu</a>
