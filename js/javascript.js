@@ -8,13 +8,12 @@ let bizikletaAukera = 1;
 let ordeAukera = 1;
 let autoAukera = 1;
 
+
 if (localStorage.getItem("bo1") == null){
     let bizikleta_okupazioa = [];
-    localStorage.setItem("bo1", JSON.stringify(bizikleta_okupazioa));
-}
-
-if (localStorage.getItem("bo2") == null){
-    localStorage.setItem("bo2", JSON.stringify(bizikleta_okupazioa));
+    for(i = 1; i <= 2; i++){
+        localStorage.setItem("bo"+i, JSON.stringify(bizikleta_okupazioa));
+    }
 }
 
 if (localStorage.getItem("ko1") == null){
