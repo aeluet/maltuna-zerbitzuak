@@ -245,7 +245,8 @@ function getDayAndMonth(dayIndex) {
   targetDate.setDate(currentDate.getDate() - dayDifference + dayIndex);
 
   const dayName = daysOfWeek[targetDate.getDay()];
-  const dayOfMonth = targetDate.getDate();
+  const dayOfMonth = targetDate.getDate()+1;
+  //  alert(dayOfMonth);
   const monthName = targetDate.toLocaleString('eu', { month: 'long' });
 
   return {
@@ -262,12 +263,6 @@ function gehituSchedule(){
         bizikleta_okupazioa = JSON.parse(localStorage.getItem("bo1"));
     }else{
         bizikleta_okupazioa = JSON.parse(localStorage.getItem("bo2"));
-    }
-    // Get the day and month for each day of the week
-    for (let i = 0; i < 7; i++) {
-        const dayInfo = getDayAndMonth(i);
-        
-        //alert(`${dayInfo.day}, Day ${dayInfo.dayOfMonth} of ${dayInfo.month}`);
     }
     
     let contenido = document.getElementById("day-slot");
