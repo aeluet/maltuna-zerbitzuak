@@ -146,7 +146,7 @@ async function login(){
             sartu = 1;
             console.log('Erabiltzailea eta pasahitza zuzenak dira');
             if (username == "admin"){
-                window.location.href = 'portfolio-details.html';
+                window.location.href = 'produktuak.html';
                 localStorage.setItem("username", "admin");
             }else{
                 window.location.href = 'produktuak.html';
